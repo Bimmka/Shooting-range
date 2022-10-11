@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46cfac58c6b74552a86bc7cd8e399b69, type: 3}
   m_Name: TargetsSettings
   m_EditorClassIdentifier: 
-  Settings: []
+  Settings:
+  - Type: 0
+    MoveSpeed: 5
+    View: {fileID: 0}
+    MaxHp: 10
+  - Type: 1
+    MoveSpeed: 10
+    View: {fileID: 0}
+    MaxHp: 30
