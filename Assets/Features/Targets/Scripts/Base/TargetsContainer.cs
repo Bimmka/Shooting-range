@@ -8,7 +8,7 @@ namespace Features.Targets.Scripts.Base
     {
         public List<TargetPresenter> Presenters { get; }
 
-        public event Action PresenterDied;
+        public event Action TargetDied;
         
         public TargetsContainer()
         {
@@ -52,6 +52,6 @@ namespace Features.Targets.Scripts.Base
         }
 
         private void OnPresenterDied() => 
-            PresenterDied?.Invoke();
+            TargetDied?.Invoke();
     }
 }

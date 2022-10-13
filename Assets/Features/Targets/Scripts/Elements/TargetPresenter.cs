@@ -1,4 +1,5 @@
 ﻿using System;
+using Features.Level.Zone.Scripts;
 using Features.Targets.Scripts.Base;
 using Features.Targets.Scripts.HP;
 using Features.Targets.Scripts.Settings;
@@ -27,11 +28,22 @@ namespace Features.Targets.Scripts.Elements
       this.mover = mover;
       this.settings = settings;
       ID = id;
-      Status = TargetStatus.Disabled;
+      UpdateStatus(TargetStatus.Disabled);
     }
 
-    public void Move() => 
-      mover.Move();
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+      if (other.collider.TryGetComponent(out ZoneEdge zoneEdge) || other.collider.TryGetComponent(out TargetPresenter trget))
+      {
+        mover.ChangeDirectionByCollision(other.contacts[0].normal);
+      }
+    }
+
+    public void Show()
+    {
+      UpdateStatus(TargetStatus.Appearing);
+      OnAppear();
+    }
 
     public void TakeDamage(int damage) => 
       hp.Decrease(damage);
@@ -39,10 +51,41 @@ namespace Features.Targets.Scripts.Elements
     public void Restore() => 
       hp.Restore();
 
+    public void SetPosition(Vector3 position) => 
+      mover.SetPosition(position);
+
+    public void SetMoveDirection(Vector2 moveDirection) => 
+      mover.SetMoveDirection(moveDirection);
+
+    private void StartMove() => 
+      mover.StartMove();
+
+    private void StopMove() => 
+      mover.StopMove();
+
     private void OnHPOver()
     {
-      
+      UpdateStatus(TargetStatus.Disappearing);
+      NotifyAboutHide();
+      StopMove();
+      OnDied();
     }
+
+    private void OnAppear()
+    {
+      UpdateStatus(TargetStatus.Moving);
+      NotifyAboutAppear();
+      StartMove();
+    }
+
+    private void OnDied()
+    {
+      UpdateStatus(TargetStatus.Disabled);
+      NotifyAboutDie();
+    }
+
+    private void UpdateStatus(TargetStatus status) => 
+      Status = status;
 
     private void NotifyAboutAppear() => 
       Appeared?.Invoke();
