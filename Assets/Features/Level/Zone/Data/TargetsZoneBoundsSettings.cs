@@ -9,6 +9,7 @@ namespace Features.Level.Zone.Data
     public Vector3 CenterPoint;
     public Vector2 Size;
     public float EdgeWidth = 2f;
-    public ZoneEdge Prefab;
+    public GameZoneEdge GameZoneEdgePrefab;
+    public GameZone GameZonePrefab;
   }
 }

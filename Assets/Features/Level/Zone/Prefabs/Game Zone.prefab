@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3903275910108693134}
-  - component: {fileID: 75026512307164993}
+  - component: {fileID: 3656195865176114489}
   - component: {fileID: 5317861048252282871}
-  m_Layer: 8
-  m_Name: Zone Edge
+  m_Layer: 7
+  m_Name: Game Zone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,7 +33,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &75026512307164993
+--- !u!114 &3656195865176114489
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,7 +42,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4996974663472119855}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df0479721f454fc1be226a737e9ec5b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 164413f3660345c49eae37fb363b1910, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   edgeCollider: {fileID: 5317861048252282871}

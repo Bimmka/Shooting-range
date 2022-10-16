@@ -33,7 +33,7 @@ namespace Features.Targets.Scripts.Elements
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-      if (other.collider.TryGetComponent(out ZoneEdge zoneEdge) || other.collider.TryGetComponent(out TargetPresenter trget))
+      if (other.collider.TryGetComponent(out GameZoneEdge zoneEdge) || other.collider.TryGetComponent(out TargetPresenter trget))
       {
         mover.ChangeDirectionByCollision(other.contacts[0].normal);
       }

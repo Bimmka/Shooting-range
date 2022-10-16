@@ -4,25 +4,26 @@ using UnityEngine;
 
 namespace Features.Level.Zone.Scripts
 {
-  public class ZoneEdgesSpawner
+  public class GameZoneCreator
   {
     private readonly IAssetProvider assetProvider;
     private readonly TargetsZoneBoundsSettings settings;
     private readonly Transform spawnParent;
 
-    public ZoneEdgesSpawner(IAssetProvider assetProvider, TargetsZoneBoundsSettings settings, Transform spawnParent)
+    public GameZoneCreator(IAssetProvider assetProvider, TargetsZoneBoundsSettings settings, Transform spawnParent)
     {
       this.assetProvider = assetProvider;
       this.settings = settings;
       this.spawnParent = spawnParent;
     }
 
-    public void SpawnEdges()
+    public void CreateGameZone()
     {
       SpawnTopEdge();
       SpawnLeftEdge();
       SpawnRightEdge();
       SpawnBottomEdge();
+      SpawnGameZone();
     }
 
     private void SpawnTopEdge()
@@ -33,7 +34,7 @@ namespace Features.Level.Zone.Scripts
         new Vector2(settings.Size.x, settings.EdgeWidth)
         );
     }
-    
+
     private void SpawnLeftEdge()
     {
       InitializeEdge(
@@ -42,7 +43,7 @@ namespace Features.Level.Zone.Scripts
         new Vector2(settings.EdgeWidth, settings.Size.y)
       );
     }
-    
+
     private void SpawnRightEdge()
     {
       InitializeEdge(
@@ -51,7 +52,7 @@ namespace Features.Level.Zone.Scripts
         new Vector2(settings.EdgeWidth, settings.Size.y)
       );
     }
-    
+
     private void SpawnBottomEdge()
     {
       InitializeEdge(
@@ -61,13 +62,23 @@ namespace Features.Level.Zone.Scripts
       );
     }
 
-    private void InitializeEdge(ZoneEdge edge, Vector3 position, Vector2 size)
+    private void SpawnGameZone()
     {
-      edge.SetPosition(position);
-      edge.SetEdgeSize(size);
+      GameZone gameZone = Zone();
+      gameZone.SetPosition(settings.CenterPoint);
+      gameZone.SetColliderSize(new Vector2(settings.Size.x - settings.EdgeWidth, settings.Size.y - settings.EdgeWidth));
     }
 
-    private ZoneEdge Edge() => 
-      assetProvider.Instantiate(settings.Prefab, spawnParent);
+    private void InitializeEdge(GameZoneEdge edge, Vector3 position, Vector2 size)
+    {
+      edge.SetPosition(position);
+      edge.SetColliderSize(size);
+    }
+
+    private GameZoneEdge Edge() => 
+      assetProvider.Instantiate(settings.GameZoneEdgePrefab, spawnParent);
+
+    private GameZone Zone() => 
+      assetProvider.Instantiate(settings.GameZonePrefab, spawnParent);
   }
 }

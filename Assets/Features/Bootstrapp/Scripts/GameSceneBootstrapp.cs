@@ -1,4 +1,7 @@
-﻿using Features.Level.Goal.Scripts;
+﻿using Features.Cannon.Data;
+using Features.Cannon.Scripts;
+using Features.Input;
+using Features.Level.Goal.Scripts;
 using Features.Level.Settings;
 using Features.Level.Zone.Data;
 using Features.Level.Zone.Scripts;
@@ -18,12 +21,18 @@ namespace Features.Bootstrapp.Scripts
     [SerializeField] private TargetsZoneBoundsSettings zoneBoundsSettings;
     [SerializeField] private Transform zoneEdgesParent;
     [SerializeField] private Transform targetSpawnParent;
+    [SerializeField] private Transform cannonSpawnParent;
     [SerializeField] private TargetPresenter targetPrefab;
+    [SerializeField] private CannonPresenter cannonPrefab;
+    [SerializeField] private AimView aimViewPrefab;
 
     public override void Start()
     {
       base.Start();
-      Container.Resolve<ZoneEdgesSpawner>().SpawnEdges();
+      
+      Container.InstantiatePrefab(cannonPrefab, cannonSpawnParent);
+
+      Container.Resolve<GameZoneCreator>().CreateGameZone();
       Container.Resolve<LevelObserver>().StartLevel();
     }
 
@@ -38,7 +47,10 @@ namespace Features.Bootstrapp.Scripts
       Container.Bind<TargetsSpawner>().ToSelf().FromNew().AsSingle();
       Container.Bind<LevelObserver>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings.TargetsOnStart, levelSettings.TargetsToWin);
       Container.Bind<ICoroutineRunner>().FromInstance(this).AsSingle();
-      Container.Bind<ZoneEdgesSpawner>().ToSelf().FromNew().AsSingle().WithArguments(zoneBoundsSettings, zoneEdgesParent);
+      Container.Bind<GameZoneCreator>().ToSelf().FromNew().AsSingle().WithArguments(zoneBoundsSettings, zoneEdgesParent);
+      Container.Bind<IPlayerInputService>().To<PlayerInputService>().FromNew().AsSingle();
+      Container.Bind<Camera>().WithId("Main Camera").FromInstance(Camera.main).AsSingle();
+      Container.Bind<AimView>().ToSelf().FromComponentInNewPrefab(aimViewPrefab).AsSingle();
     }
   }
 }

@@ -15,4 +15,5 @@ MonoBehaviour:
   CenterPoint: {x: 0, y: 0, z: 0}
   Size: {x: 15, y: 10}
   EdgeWidth: 1
-  Prefab: {fileID: 75026512307164993, guid: eb5b341784cf9f042912b319b4abd7d0, type: 3}
+  GameZoneEdgePrefab: {fileID: 75026512307164993, guid: eb5b341784cf9f042912b319b4abd7d0, type: 3}
+  GameZonePrefab: {fileID: 3656195865176114489, guid: 66fe49f45e4999b46bfc647cd1b8268e, type: 3}
