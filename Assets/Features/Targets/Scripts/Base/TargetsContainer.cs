@@ -6,34 +6,41 @@ namespace Features.Targets.Scripts.Base
 {
     public class TargetsContainer
     {
-        public List<TargetPresenter> Presenters { get; }
-
+        private readonly List<TargetPresenter> presenters;
         public event Action TargetDied;
         
         public TargetsContainer()
         {
-            Presenters = new List<TargetPresenter>(30);
+            presenters = new List<TargetPresenter>(30);
         }
 
         public void AddTarget(TargetPresenter presenter)
         {
-            Presenters.Add(presenter);
+            presenters.Add(presenter);
             presenter.Died += OnPresenterDied;
         }
 
         public void Cleanup()
         {
-            for (int i = 0; i < Presenters.Count; i++)
+            for (int i = 0; i < presenters.Count; i++)
             {
-                Presenters[i].Died -= OnPresenterDied;
+                presenters[i].Died -= OnPresenterDied;
+            }
+        }
+
+        public void DisableTargets()
+        {
+            for (int i = 0; i < presenters.Count; i++)
+            {
+                presenters[i].Disable();
             }
         }
 
         public bool IsContainsDisabledPresenter(TargetType type)
         {
-            for (int i = 0; i < Presenters.Count; i++)
+            for (int i = 0; i < presenters.Count; i++)
             {
-                if (IsDisabled(Presenters[i].Status) && IsSameType(Presenters[i].Type, type))
+                if (IsDisabled(presenters[i].Status) && IsSameType(presenters[i].Type, type))
                     return true;
             }
 
@@ -42,10 +49,10 @@ namespace Features.Targets.Scripts.Base
 
         public TargetPresenter PresenterOrNull(TargetType type)
         {
-            for (int i = 0; i < Presenters.Count; i++)
+            for (int i = 0; i < presenters.Count; i++)
             {
-                if (IsDisabled(Presenters[i].Status) && IsSameType(Presenters[i].Type, type))
-                    return Presenters[i];
+                if (IsDisabled(presenters[i].Status) && IsSameType(presenters[i].Type, type))
+                    return presenters[i];
             }
 
             return null;
