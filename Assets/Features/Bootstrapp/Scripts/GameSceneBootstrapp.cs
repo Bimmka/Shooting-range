@@ -1,4 +1,5 @@
-﻿using Features.Cannon.Data;
+﻿using Features.Bullet.Scripts;
+using Features.Cannon.Data;
 using Features.Cannon.Scripts;
 using Features.Input;
 using Features.Level.Goal.Scripts;
@@ -25,6 +26,8 @@ namespace Features.Bootstrapp.Scripts
     [SerializeField] private TargetPresenter targetPrefab;
     [SerializeField] private CannonPresenter cannonPrefab;
     [SerializeField] private AimView aimViewPrefab;
+    [SerializeField] private BulletPresenter bulletPrefab;
+    [SerializeField] private Transform bulletSpawnParent;
 
     public override void Start()
     {
@@ -51,6 +54,8 @@ namespace Features.Bootstrapp.Scripts
       Container.Bind<IPlayerInputService>().To<PlayerInputService>().FromNew().AsSingle();
       Container.Bind<Camera>().WithId("Main Camera").FromInstance(Camera.main).AsSingle();
       Container.Bind<AimView>().ToSelf().FromComponentInNewPrefab(aimViewPrefab).AsSingle();
+      Container.Bind<BulletsContainer>().ToSelf().FromNew().AsSingle();
+      Container.Bind<BulletFactory>().ToSelf().FromNew().AsSingle().WithArguments(bulletPrefab, bulletSpawnParent);
     }
   }
 }

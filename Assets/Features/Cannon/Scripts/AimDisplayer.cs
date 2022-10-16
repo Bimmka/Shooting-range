@@ -11,9 +11,7 @@ namespace Features.Cannon.Scripts
       this.aim = aim;
       
     }
-    public void DisplayAim(Vector3 positionOnGameZone)
-    {
+    public void DisplayAimAt(Vector3 positionOnGameZone) => 
       aim.SetPosition(positionOnGameZone);
-    }
   }
 }

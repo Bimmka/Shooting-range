@@ -10,7 +10,7 @@ namespace Features.Cannon.Scripts
     private readonly RaycastHit2D[] hits;
     private int hitCount;
 
-    public Vector3 ViewPortGameZonePosition { get; private set; }
+    public Vector3 GameZonePosition { get; private set; }
 
     public GameZoneRaycaster(GameZoneRaycasterSettings settings, Camera mainCamera)
     {
@@ -23,8 +23,11 @@ namespace Features.Cannon.Scripts
     {
       Ray ray = mainCamera.ScreenPointToRay(mousePosition);
       hitCount = Physics2D.RaycastNonAlloc(ray.origin, ray.direction, hits, settings.Distance, settings.GameZoneMask);
-      if (hitCount > 0) 
-        ViewPortGameZonePosition = hits[0].point;
+      if (IsHitZone()) 
+        GameZonePosition = hits[0].point;
     }
+
+    public bool IsHitZone() => 
+      hitCount > 0;
   }
 }
