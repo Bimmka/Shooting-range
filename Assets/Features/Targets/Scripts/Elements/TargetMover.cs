@@ -26,7 +26,7 @@ namespace Features.Targets.Scripts.Elements
     public void StartMove()
     {
       if (moveCoroutine != null)
-        return;
+        coroutineRunner.StopCoroutine(moveCoroutine);
 
       isMoving = true;
       moveCoroutine = coroutineRunner.StartCoroutine(Move());
@@ -51,6 +51,8 @@ namespace Features.Targets.Scripts.Elements
         presenter.MovePosition(NextPosition());
         yield return new WaitForFixedUpdate();
       }
+
+      moveCoroutine = null;
     }
 
     private Vector2 NextPosition() => 
