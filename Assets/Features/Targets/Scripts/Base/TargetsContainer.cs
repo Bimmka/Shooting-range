@@ -33,18 +33,18 @@ namespace Features.Targets.Scripts.Base
         {
             for (int i = 0; i < Presenters.Count; i++)
             {
-                if (Presenters[i].Type == type)
+                if (IsDisabled(Presenters[i].Status) && IsSameType(Presenters[i].Type, type))
                     return true;
             }
 
             return false;
         }
-        
+
         public TargetPresenter PresenterOrNull(TargetType type)
         {
             for (int i = 0; i < Presenters.Count; i++)
             {
-                if (Presenters[i].Type == type)
+                if (IsDisabled(Presenters[i].Status) && IsSameType(Presenters[i].Type, type))
                     return Presenters[i];
             }
 
@@ -53,5 +53,11 @@ namespace Features.Targets.Scripts.Base
 
         private void OnPresenterDied() => 
             TargetDied?.Invoke();
+
+        private bool IsDisabled(TargetStatus status) => 
+            status == TargetStatus.Disabled;
+
+        private bool IsSameType(TargetType presenterType, TargetType type) => 
+            presenterType == type;
     }
 }

@@ -7,6 +7,6 @@ namespace Features.Level.Settings
   {
     public int TargetsOnStart = 10;
     public int TargetsToWin = 50;
-    public float GameSecondsTime = 120;
+    public int GameSecondsTime = 120;
   }
 }

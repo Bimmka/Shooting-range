@@ -35,6 +35,14 @@ namespace Features.Targets.Scripts.Base
       }
     }
 
+    public void RespawnTargets(int count)
+    {
+      for (int i = 0; i < count; i++)
+      {
+        SpawnTarget();
+      }
+    }
+
     public void SpawnTarget()
     {
       TargetType type = RandomType();

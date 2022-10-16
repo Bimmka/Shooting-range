@@ -35,7 +35,7 @@ namespace Features.Targets.Scripts.Base
       TargetMover mover = new TargetMover(presenter.GetComponent<Rigidbody2D>(),  settings.MoveSpeed, coroutineRunner);
       TargetHP hp = new TargetHP(settings.MaxHp);
       
-      presenter.Initialize(settings, Guid.NewGuid().ToString(), mover, hp);
+      presenter.Initialize(settings, mover, hp);
       presenter.GetComponent<TargetHPDisplayer>().Construct(hp);
       presenter.SetPosition(position);
       presenter.SetMoveDirection(MoveDirection());

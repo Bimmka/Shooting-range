@@ -11,6 +11,7 @@ using Features.Services.Coroutine;
 using Features.Services.StaticData;
 using Features.Targets.Scripts.Base;
 using Features.Targets.Scripts.Elements;
+using Features.Timer;
 using UnityEngine;
 using Zenject;
 
@@ -48,7 +49,8 @@ namespace Features.Bootstrapp.Scripts
       Container.Bind<TargetsContainer>().ToSelf().FromNew().AsSingle();
       Container.Bind<TargetsFactory>().ToSelf().FromNew().AsSingle().WithArguments(targetSpawnParent, targetPrefab);
       Container.Bind<TargetsSpawner>().ToSelf().FromNew().AsSingle();
-      Container.Bind<LevelObserver>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings.TargetsOnStart, levelSettings.TargetsToWin);
+      Container.Bind<LevelObserver>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings.TargetsOnStart, levelSettings.TargetsToWin, levelSettings.GameSecondsTime);
+      Container.Bind<GameTimer>().ToSelf().FromNew().AsSingle();
       Container.Bind<ICoroutineRunner>().FromInstance(this).AsSingle();
       Container.Bind<GameZoneCreator>().ToSelf().FromNew().AsSingle().WithArguments(zoneBoundsSettings, zoneEdgesParent);
       Container.Bind<IPlayerInputService>().To<PlayerInputService>().FromNew().AsSingle();
