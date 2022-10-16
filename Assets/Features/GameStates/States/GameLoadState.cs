@@ -21,6 +21,7 @@ namespace Features.GameStates.States
       this.levelObserver = levelObserver;
       this.gameZoneCreator = gameZoneCreator;
       this.windowsService = windowsService;
+      gameStateMachine.Register(this);
     }
 
     public void Enter()

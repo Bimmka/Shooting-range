@@ -12,6 +12,7 @@ namespace Features.GameStates.States
     {
       this.gameStateMachine = gameStateMachine;
       this.levelObserver = levelObserver;
+      gameStateMachine.Register(this);
     }
     
     public void Enter()

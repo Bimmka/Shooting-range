@@ -8,9 +8,10 @@ namespace Features.GameStates.States
   {
     private readonly CannonPresenter cannonPresenter;
 
-    public GameLoopState(CannonPresenter cannonPresenter)
+    public GameLoopState(IGameStateMachine gameStateMachine, CannonPresenter cannonPresenter)
     {
       this.cannonPresenter = cannonPresenter;
+      gameStateMachine.Register(this);
     }
     public void Enter() => 
       cannonPresenter.StartTick();

@@ -354,6 +354,7 @@ MonoBehaviour:
   bulletPrefab: {fileID: 5732754242439315087, guid: f71e79ddc999d434a82bdfa2c7241d25, type: 3}
   bulletSpawnParent: {fileID: 1069786926}
   gameObserver: {fileID: 3290590562426581443, guid: cfb3430b85e4cc94ab7c765acf6fc959, type: 3}
+  uiRootPrefab: {fileID: 8256353064110077333, guid: 7b1824fc2b656b4409a7fe74223b86a5, type: 3}
 --- !u!114 &1751036707
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using Features.Cannon.Scripts;
 using Features.Game;
 using Features.Game.Scripts;
 using Features.GameStates;
+using Features.GameStates.States;
 using Features.Input;
 using Features.Level.Goal.Scripts;
 using Features.Level.Settings;
@@ -11,9 +12,12 @@ using Features.Level.Zone.Scripts;
 using Features.Services.Assets;
 using Features.Services.Coroutine;
 using Features.Services.StaticData;
+using Features.Services.UI.Factory.BaseUI;
+using Features.Services.UI.Windows;
 using Features.Targets.Scripts.Base;
 using Features.Targets.Scripts.Elements;
 using Features.Timer;
+using Features.UI.Windows.Base;
 using UnityEngine;
 using Zenject;
 
@@ -31,11 +35,13 @@ namespace Features.Bootstrapp.Scripts
     [SerializeField] private BulletPresenter bulletPrefab;
     [SerializeField] private Transform bulletSpawnParent;
     [SerializeField] private GameObserver gameObserver;
+    [SerializeField] private UIRoot uiRootPrefab;
 
     public override void Start()
     {
       base.Start();
-      Container.InstantiatePrefab(gameObserver);
+      ResolveGameStates();
+      Container.InstantiatePrefab(gameObserver).GetComponent<GameObserver>().StartGame();
     }
 
     public override void InstallBindings()
@@ -56,6 +62,17 @@ namespace Features.Bootstrapp.Scripts
       BindBulletFactory();
       BindCannonPresenter();
       BindGameStateMachine();
+      BindWindowService();
+      BindUIFactory();
+    }
+
+    private void ResolveGameStates()
+    {
+      Container.Resolve<GameLoadState>();
+      Container.Resolve<GameLoopState>();
+      Container.Resolve<GameMainMenuState>();
+      Container.Resolve<GameRestartState>();
+      Container.Resolve<GameWinState>();
     }
 
     private void BindStaticData()
@@ -108,7 +125,20 @@ namespace Features.Bootstrapp.Scripts
     private void BindCannonPresenter() => 
       Container.Bind<CannonPresenter>().ToSelf().FromComponentInNewPrefab(cannonPrefab).AsSingle();
 
-    private void BindGameStateMachine() => 
+    private void BindGameStateMachine()
+    {
       Container.Bind<IGameStateMachine>().To<GameStateMachine>().FromNew().AsSingle();
+      Container.Bind<GameLoadState>().ToSelf().FromNew().AsSingle();
+      Container.Bind<GameLoopState>().ToSelf().FromNew().AsSingle();
+      Container.Bind<GameMainMenuState>().ToSelf().FromNew().AsSingle();
+      Container.Bind<GameRestartState>().ToSelf().FromNew().AsSingle();
+      Container.Bind<GameWinState>().ToSelf().FromNew().AsSingle();
+    }
+
+    private void BindWindowService() => 
+      Container.Bind<IWindowsService>().To<WindowsService>().FromNew().AsSingle();
+
+    private void BindUIFactory() => 
+      Container.Bind<IUIFactory>().To<UIFactory>().FromNew().AsSingle().WithArguments(uiRootPrefab);
   }
 }

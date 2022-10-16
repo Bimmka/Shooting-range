@@ -8,9 +8,10 @@ namespace Features.GameStates.States
   {
     private readonly IWindowsService windowsService;
 
-    public GameLooseState(IWindowsService windowsService)
+    public GameLooseState(IGameStateMachine gameStateMachine, IWindowsService windowsService)
     {
       this.windowsService = windowsService;
+      gameStateMachine.Register(this);
     }
     
     public void Enter()
