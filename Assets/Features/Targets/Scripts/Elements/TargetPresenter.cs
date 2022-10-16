@@ -7,27 +7,28 @@ using UnityEngine;
 
 namespace Features.Targets.Scripts.Elements
 {
+  [RequireComponent(typeof(TargetView))]
   public class TargetPresenter : MonoBehaviour
   {
+    [SerializeField] private TargetView view;
+    
     private TargetSettings settings;
     private TargetMover mover;
     private TargetHP hp;
 
     public TargetStatus Status { get; private set; }
     public TargetType Type => settings.Type;
-    public string ID { get; private set; }
-
     public event Action Died;
     public event Action Hiden;
     public event Action Appeared;
 
-    public void Initialize(TargetSettings settings, string id, TargetMover mover, TargetHP hp)
+    public void Initialize(TargetSettings settings, TargetMover mover, TargetHP hp)
     {
       this.hp = hp;
       this.hp.Overed += OnHPOver;
       this.mover = mover;
       this.settings = settings;
-      ID = id;
+      view.SetView(settings.View);
       UpdateStatus(TargetStatus.Disabled);
     }
 
@@ -42,11 +43,14 @@ namespace Features.Targets.Scripts.Elements
     public void Show()
     {
       UpdateStatus(TargetStatus.Appearing);
-      OnAppear();
+      view.Show(OnAppear);
     }
 
-    public void TakeDamage(int damage) => 
+    public void TakeDamage(int damage)
+    {
+      view.DisplayHit();
       hp.Decrease(damage);
+    }
 
     public void Restore() => 
       hp.Restore();
@@ -57,6 +61,9 @@ namespace Features.Targets.Scripts.Elements
     public void SetMoveDirection(Vector2 moveDirection) => 
       mover.SetMoveDirection(moveDirection);
 
+    public void Disable() => 
+      view.Hide();
+
     private void StartMove() => 
       mover.StartMove();
 
@@ -66,10 +73,13 @@ namespace Features.Targets.Scripts.Elements
     private void OnHPOver()
     {
       UpdateStatus(TargetStatus.Disappearing);
+      Hide();
       NotifyAboutHide();
       StopMove();
-      OnDied();
     }
+
+    private void Hide() => 
+      view.Hide(OnDied);
 
     private void OnAppear()
     {
