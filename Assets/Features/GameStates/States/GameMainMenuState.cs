@@ -4,13 +4,12 @@ using Features.Services.UI.Windows;
 
 namespace Features.GameStates.States
 {
-  public class MainMenuState : IState
+  public class GameMainMenuState : IState
   {
     private readonly IWindowsService windowsService;
 
-    public MainMenuState(IWindowsService windowsService)
+    public GameMainMenuState(IWindowsService windowsService)
     {
-      
       this.windowsService = windowsService;
     }
     

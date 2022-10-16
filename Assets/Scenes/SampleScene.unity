@@ -348,12 +348,12 @@ MonoBehaviour:
   zoneBoundsSettings: {fileID: 11400000, guid: 5caa323d9e51928459ce1db2949a561a, type: 2}
   zoneEdgesParent: {fileID: 1622892027}
   targetSpawnParent: {fileID: 1622892027}
-  cannonSpawnParent: {fileID: 400285675}
   targetPrefab: {fileID: 1030819912550457714, guid: 7ff71c28de6f2334caaf173e3834634e, type: 3}
   cannonPrefab: {fileID: 7858551406878999162, guid: 008b190e1fce69a4e9fb66571b250f08, type: 3}
   aimViewPrefab: {fileID: 5583154745403658029, guid: 4b05e5789bf83c94ea3b8ff9e2d248f8, type: 3}
   bulletPrefab: {fileID: 5732754242439315087, guid: f71e79ddc999d434a82bdfa2c7241d25, type: 3}
   bulletSpawnParent: {fileID: 1069786926}
+  gameObserver: {fileID: 3290590562426581443, guid: cfb3430b85e4cc94ab7c765acf6fc959, type: 3}
 --- !u!114 &1751036707
 MonoBehaviour:
   m_ObjectHideFlags: 0

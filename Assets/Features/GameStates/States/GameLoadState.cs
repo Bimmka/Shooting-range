@@ -1,4 +1,6 @@
 using Features.GameStates.States.Interfaces;
+using Features.Level.Goal.Scripts;
+using Features.Level.Zone.Scripts;
 using Features.Services.UI.Factory;
 using Features.Services.UI.Windows;
 using Zenject;
@@ -7,34 +9,31 @@ namespace Features.GameStates.States
 {
   public class GameLoadState : IState
   {
-    private readonly GameStateMachine gameStateMachine;
+    private readonly IGameStateMachine gameStateMachine;
+    private readonly LevelObserver levelObserver;
+    private readonly GameZoneCreator gameZoneCreator;
     private readonly IWindowsService windowsService;
 
     [Inject]
-    public GameLoadState(GameStateMachine gameStateMachine)
+    public GameLoadState(IGameStateMachine gameStateMachine, LevelObserver levelObserver, GameZoneCreator gameZoneCreator, IWindowsService windowsService)
     {
       this.gameStateMachine = gameStateMachine;
-      gameStateMachine.Add(this);
+      this.levelObserver = levelObserver;
+      this.gameZoneCreator = gameZoneCreator;
+      this.windowsService = windowsService;
     }
 
     public void Enter()
     {
-      
+      gameZoneCreator.CreateGameZone();
+      windowsService.Open(WindowId.HUD);
+      levelObserver.StartLevel();
+      gameStateMachine.Enter<GameLoopState>();
     }
 
     public void Exit()
     {
       
     }
-
-    private void OnLoad()
-    {
-      CreateHUD();
-      gameStateMachine.Enter<GameLoopState>();
-    }
-    
-    private void CreateHUD() => 
-      windowsService.Open(WindowId.Pause);
-    
   }
 }

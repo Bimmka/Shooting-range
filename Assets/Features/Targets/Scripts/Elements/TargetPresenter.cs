@@ -61,8 +61,12 @@ namespace Features.Targets.Scripts.Elements
     public void SetMoveDirection(Vector2 moveDirection) => 
       mover.SetMoveDirection(moveDirection);
 
-    public void Disable() => 
+    public void Disable()
+    {
       view.Hide();
+      StopMove();
+      UpdateStatus(TargetStatus.Disabled);
+    }
 
     private void StartMove() => 
       mover.StartMove();

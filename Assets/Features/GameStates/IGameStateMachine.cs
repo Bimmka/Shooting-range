@@ -7,6 +7,5 @@ namespace Features.GameStates
   {
     void Enter<TState>() where TState : class, IState;
     TState GetState<TState>() where TState : class, IExitableState;
-    void Add<TState>(TState state) where TState : class, IState;
   }
 }

@@ -1,6 +1,8 @@
 ﻿using Features.Bullet.Scripts;
-using Features.Cannon.Data;
 using Features.Cannon.Scripts;
+using Features.Game;
+using Features.Game.Scripts;
+using Features.GameStates;
 using Features.Input;
 using Features.Level.Goal.Scripts;
 using Features.Level.Settings;
@@ -23,41 +25,90 @@ namespace Features.Bootstrapp.Scripts
     [SerializeField] private TargetsZoneBoundsSettings zoneBoundsSettings;
     [SerializeField] private Transform zoneEdgesParent;
     [SerializeField] private Transform targetSpawnParent;
-    [SerializeField] private Transform cannonSpawnParent;
     [SerializeField] private TargetPresenter targetPrefab;
     [SerializeField] private CannonPresenter cannonPrefab;
     [SerializeField] private AimView aimViewPrefab;
     [SerializeField] private BulletPresenter bulletPrefab;
     [SerializeField] private Transform bulletSpawnParent;
+    [SerializeField] private GameObserver gameObserver;
 
     public override void Start()
     {
       base.Start();
-      
-      Container.InstantiatePrefab(cannonPrefab, cannonSpawnParent);
-
-      Container.Resolve<GameZoneCreator>().CreateGameZone();
-      Container.Resolve<LevelObserver>().StartLevel();
+      Container.InstantiatePrefab(gameObserver);
     }
 
     public override void InstallBindings()
     {
+      BindStaticData();
+      BindAssetProvider();
+      BindTargetsContainer();
+      BindTargetsFactory();
+      BindTargetsSpawner();
+      BindLevelObserver();
+      BindGameTimer();
+      BindCoroutineRunner();
+      BindGameZoneCreator();
+      BindPlayerInput();
+      BindMainCamera();
+      BindAimView();
+      BindBulletsContainer();
+      BindBulletFactory();
+      BindCannonPresenter();
+      BindGameStateMachine();
+    }
+
+    private void BindStaticData()
+    {
       IStaticDataService staticDataService = new StaticDataService();
       staticDataService.Load();
       Container.Bind<IStaticDataService>().FromInstance(staticDataService).AsSingle();
-      Container.Bind<IAssetProvider>().To<AssetProvider>().FromNew().AsSingle();
-      Container.Bind<TargetsContainer>().ToSelf().FromNew().AsSingle();
-      Container.Bind<TargetsFactory>().ToSelf().FromNew().AsSingle().WithArguments(targetSpawnParent, targetPrefab);
-      Container.Bind<TargetsSpawner>().ToSelf().FromNew().AsSingle();
-      Container.Bind<LevelObserver>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings.TargetsOnStart, levelSettings.TargetsToWin, levelSettings.GameSecondsTime);
-      Container.Bind<GameTimer>().ToSelf().FromNew().AsSingle();
-      Container.Bind<ICoroutineRunner>().FromInstance(this).AsSingle();
-      Container.Bind<GameZoneCreator>().ToSelf().FromNew().AsSingle().WithArguments(zoneBoundsSettings, zoneEdgesParent);
-      Container.Bind<IPlayerInputService>().To<PlayerInputService>().FromNew().AsSingle();
-      Container.Bind<Camera>().WithId("Main Camera").FromInstance(Camera.main).AsSingle();
-      Container.Bind<AimView>().ToSelf().FromComponentInNewPrefab(aimViewPrefab).AsSingle();
-      Container.Bind<BulletsContainer>().ToSelf().FromNew().AsSingle();
-      Container.Bind<BulletFactory>().ToSelf().FromNew().AsSingle().WithArguments(bulletPrefab, bulletSpawnParent);
     }
+
+    private void BindAssetProvider() => 
+      Container.Bind<IAssetProvider>().To<AssetProvider>().FromNew().AsSingle();
+
+    private void BindTargetsContainer() => 
+      Container.Bind<TargetsContainer>().ToSelf().FromNew().AsSingle();
+
+    private void BindTargetsFactory() => 
+      Container.Bind<TargetsFactory>().ToSelf().FromNew().AsSingle().WithArguments(targetSpawnParent, targetPrefab);
+
+    private void BindTargetsSpawner() => 
+      Container.Bind<TargetsSpawner>().ToSelf().FromNew().AsSingle();
+
+    private void BindLevelObserver() =>
+      Container.Bind<LevelObserver>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings.TargetsOnStart,
+        levelSettings.TargetsToWin, levelSettings.GameSecondsTime);
+
+    private void BindGameTimer() => 
+      Container.Bind<GameTimer>().ToSelf().FromNew().AsSingle();
+
+    private void BindCoroutineRunner() => 
+      Container.Bind<ICoroutineRunner>().FromInstance(this).AsSingle();
+
+    private void BindGameZoneCreator() => 
+      Container.Bind<GameZoneCreator>().ToSelf().FromNew().AsSingle().WithArguments(zoneBoundsSettings, zoneEdgesParent);
+
+    private void BindPlayerInput() => 
+      Container.Bind<IPlayerInputService>().To<PlayerInputService>().FromNew().AsSingle();
+
+    private void BindMainCamera() => 
+      Container.Bind<Camera>().WithId("Main Camera").FromInstance(Camera.main).AsSingle();
+
+    private void BindAimView() => 
+      Container.Bind<AimView>().ToSelf().FromComponentInNewPrefab(aimViewPrefab).AsSingle();
+
+    private void BindBulletsContainer() => 
+      Container.Bind<BulletsContainer>().ToSelf().FromNew().AsSingle();
+
+    private void BindBulletFactory() => 
+      Container.Bind<BulletFactory>().ToSelf().FromNew().AsSingle().WithArguments(bulletPrefab, bulletSpawnParent);
+
+    private void BindCannonPresenter() => 
+      Container.Bind<CannonPresenter>().ToSelf().FromComponentInNewPrefab(cannonPrefab).AsSingle();
+
+    private void BindGameStateMachine() => 
+      Container.Bind<IGameStateMachine>().To<GameStateMachine>().FromNew().AsSingle();
   }
 }

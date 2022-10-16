@@ -1,4 +1,5 @@
-﻿using Features.Bullet.Scripts;
+﻿using System.Collections;
+using Features.Bullet.Scripts;
 using Features.Cannon.Data;
 using Features.Input;
 using UnityEngine;
@@ -17,6 +18,8 @@ namespace Features.Cannon.Scripts
 
     private CannonModel model;
 
+    private bool isLocked;
+
     [Inject]
     public void Construct([Inject(Id = "Main Camera")] Camera mainCamera, IPlayerInputService playerInputService, AimView aimView, BulletsContainer bulletsContainer)
     {
@@ -27,9 +30,22 @@ namespace Features.Cannon.Scripts
       model = new CannonModel(gameZoneRaycaster, aimDisplayer, aimFollow, playerInputService, cannonShooter);
     }
 
-    private void Update()
+    public void StopTick() => 
+      isLocked = true;
+
+    public void StartTick()
     {
-      model.UpdateModel();
+      isLocked = false;
+      StartCoroutine(Tick());
+    }
+
+    private IEnumerator Tick()
+    {
+      while (isLocked == false)
+      {
+        model.UpdateModel();
+        yield return null;
+      }
     }
   }
 }
