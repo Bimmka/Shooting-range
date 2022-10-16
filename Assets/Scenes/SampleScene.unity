@@ -123,6 +123,74 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &102693089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 102693092}
+  - component: {fileID: 102693091}
+  - component: {fileID: 102693090}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &102693090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102693089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &102693091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102693089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &102693092
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 102693089}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &400285674
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,11 +418,12 @@ MonoBehaviour:
   targetSpawnParent: {fileID: 1622892027}
   targetPrefab: {fileID: 1030819912550457714, guid: 7ff71c28de6f2334caaf173e3834634e, type: 3}
   cannonPrefab: {fileID: 7858551406878999162, guid: 008b190e1fce69a4e9fb66571b250f08, type: 3}
+  cannonSpawnParent: {fileID: 400285675}
   aimViewPrefab: {fileID: 5583154745403658029, guid: 4b05e5789bf83c94ea3b8ff9e2d248f8, type: 3}
   bulletPrefab: {fileID: 5732754242439315087, guid: f71e79ddc999d434a82bdfa2c7241d25, type: 3}
   bulletSpawnParent: {fileID: 1069786926}
   gameObserver: {fileID: 3290590562426581443, guid: cfb3430b85e4cc94ab7c765acf6fc959, type: 3}
-  uiRootPrefab: {fileID: 8256353064110077333, guid: 7b1824fc2b656b4409a7fe74223b86a5, type: 3}
+  uiRootPrefab: {fileID: 8256353064110077333, guid: 1f0a313c2cdd3b14887a56971f2f05fd, type: 3}
 --- !u!114 &1751036707
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,11 +1,16 @@
 ﻿using System;
-using Features.Constants;
 using Features.GameStates;
+using Features.Level.Goal.Scripts;
 using Features.Services.Assets;
 using Features.Services.StaticData;
 using Features.Services.UI.Windows;
+using Features.Timer;
 using Features.UI.Data;
-using Features.UI.Windows.Base;
+using Features.UI.Windows.Base.Scripts;
+using Features.UI.Windows.Window.HUD.Scripts;
+using Features.UI.Windows.Window.LoseWindow.Scripts;
+using Features.UI.Windows.Window.MainMenu.Scripts;
+using Features.UI.Windows.Window.WinWindow.Scripts;
 using UnityEngine;
 using Zenject;
 
@@ -21,22 +26,21 @@ namespace Features.Services.UI.Factory.BaseUI
     private Transform uiRoot;
 
     private Camera mainCamera;
+    private readonly GoalObserver goalObserver;
+    private readonly GameTimer gameTimer;
 
     public event Action<WindowId,BaseWindow> Spawned;
-    public bool IsCleanedUp { get; private set; }
-    
-    [Inject]
-    public UIFactory(IGameStateMachine gameStateMachine, IAssetProvider assets, IStaticDataService staticData, UIRoot uiRootPrefab)
+
+    public UIFactory(IGameStateMachine gameStateMachine, IAssetProvider assets, IStaticDataService staticData, UIRoot uiRootPrefab, 
+      [Inject(Id = "Main Camera")]Camera mainCamera, GoalObserver goalObserver, GameTimer gameTimer)
     {
       this.gameStateMachine = gameStateMachine;
       this.assets = assets;
       this.staticData = staticData;
       this.uiRootPrefab = uiRootPrefab;
-    }
-    
-    public void Cleanup()
-    {
-      IsCleanedUp = true;
+      this.mainCamera = mainCamera;
+      this.goalObserver = goalObserver;
+      this.gameTimer = gameTimer;
     }
 
 
@@ -53,11 +57,16 @@ namespace Features.Services.UI.Factory.BaseUI
           CreateMainMenu(config, gameStateMachine);
           break;
         case WindowId.Pause:
-          CreateLevelMenu(config);
+          CreatePauseMenu(config);
           break;
         case WindowId.Win:
+          CreateWinWindow(config, gameStateMachine);
           break;
         case WindowId.Lose:
+          CreateLoseWindow(config,gameStateMachine);
+          break;
+        case WindowId.HUD:
+          CreateHUDWindow(config,windowsService, goalObserver, gameTimer);
           break;
         default:
           CreateWindow(config, id);
@@ -68,19 +77,37 @@ namespace Features.Services.UI.Factory.BaseUI
     private void CreateMainMenu(WindowInstantiateData config, IGameStateMachine gameStateMachine)
     {
       BaseWindow window = InstantiateWindow(config, uiRoot);
-      
+      ((UIMainMenu)window).Construct(gameStateMachine);
       NotifyAboutCreateWindow(config.ID, window);
     }
 
-    private void CreateLevelMenu(WindowInstantiateData config)
+    private void CreatePauseMenu(WindowInstantiateData config)
     {
       BaseWindow window = InstantiateWindow(config, uiRoot);
       NotifyAboutCreateWindow(config.ID, window);
     }
 
-    private void CreateStealWindow(WindowInstantiateData config)
+    private void CreateLoseWindow(WindowInstantiateData config, IGameStateMachine gameStateMachine)
     {
-      
+      BaseWindow window = InstantiateWindow(config, uiRoot);
+      ((UILoseWindow)window).Construct(gameStateMachine);
+      NotifyAboutCreateWindow(config.ID, window);
+    }
+    
+    private void CreateHUDWindow(WindowInstantiateData config, IWindowsService windowsService, GoalObserver goalObserver, GameTimer gameTimer)
+    {
+      BaseWindow window = InstantiateWindow(config, uiRoot);
+      ((HUD)window).Construct(windowsService);
+      window.GetComponent<GameTimeDisplayer>().Construct(gameTimer);
+      window.GetComponent<LevelGoalDisplayer>().Construct(goalObserver);
+      NotifyAboutCreateWindow(config.ID, window);
+    }
+    
+    private void CreateWinWindow(WindowInstantiateData config, IGameStateMachine gameStateMachine)
+    {
+      BaseWindow window = InstantiateWindow(config, uiRoot);
+      ((UIWinWindow)window).Construct(gameStateMachine);
+      NotifyAboutCreateWindow(config.ID, window);
     }
 
     private void CreateUIRoot()
@@ -90,7 +117,7 @@ namespace Features.Services.UI.Factory.BaseUI
 
         UIRoot prefab = assets.Instantiate(uiRootPrefab).GetComponent<UIRoot>();
 
-        prefab.SetCamera(GetCamera());
+        prefab.SetCamera(mainCamera);
         uiRoot = prefab.transform;
     }
 
@@ -119,12 +146,5 @@ namespace Features.Services.UI.Factory.BaseUI
 
     private WindowInstantiateData LoadWindowInstantiateData(WindowId id) => 
       staticData.ForWindow(id);
-
-    private Camera GetCamera()
-    {
-      if (mainCamera == null)
-        mainCamera = Camera.main;
-      return mainCamera;
-    }
   }
 }

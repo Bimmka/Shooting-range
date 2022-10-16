@@ -27,11 +27,9 @@ namespace Features.Targets.Scripts.Base
 
     public void SpawnTargets(int count)
     {
-      TargetPresenter presenter;
       for (int i = 0; i < count; i++)
       {
-        presenter = factory.Spawn(RandomType(), Vector3.zero);
-        targetsContainer.AddTarget(presenter);
+        CreateNewTarget(RandomType(), Vector3.up);
       }
     }
 
@@ -49,10 +47,15 @@ namespace Features.Targets.Scripts.Base
       if (targetsContainer.IsContainsDisabledPresenter(type))
         factory.RespawnTarget(targetsContainer.PresenterOrNull(type), Vector3.right * 5);
       else
-        factory.Spawn(type, Vector3.right * 5);
+        CreateNewTarget(type, Vector3.zero);
     }
 
     private TargetType RandomType() => 
       (TargetType)Random.Range(0, targetTypeCount);
+
+    private void CreateNewTarget(TargetType type, Vector3 position)
+    {
+      targetsContainer.AddTarget(factory.Spawn(type, position));
+    }
   }
 }

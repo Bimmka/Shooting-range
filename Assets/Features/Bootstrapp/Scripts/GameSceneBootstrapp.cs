@@ -18,6 +18,7 @@ using Features.Targets.Scripts.Base;
 using Features.Targets.Scripts.Elements;
 using Features.Timer;
 using Features.UI.Windows.Base;
+using Features.UI.Windows.Base.Scripts;
 using UnityEngine;
 using Zenject;
 
@@ -31,6 +32,7 @@ namespace Features.Bootstrapp.Scripts
     [SerializeField] private Transform targetSpawnParent;
     [SerializeField] private TargetPresenter targetPrefab;
     [SerializeField] private CannonPresenter cannonPrefab;
+    [SerializeField] private Transform cannonSpawnParent;
     [SerializeField] private AimView aimViewPrefab;
     [SerializeField] private BulletPresenter bulletPrefab;
     [SerializeField] private Transform bulletSpawnParent;
@@ -41,7 +43,7 @@ namespace Features.Bootstrapp.Scripts
     {
       base.Start();
       ResolveGameStates();
-      Container.InstantiatePrefab(gameObserver).GetComponent<GameObserver>().StartGame();
+      Container.InstantiatePrefab(gameObserver);
     }
 
     public override void InstallBindings()
@@ -51,6 +53,7 @@ namespace Features.Bootstrapp.Scripts
       BindTargetsContainer();
       BindTargetsFactory();
       BindTargetsSpawner();
+      BindGoalObserver();
       BindLevelObserver();
       BindGameTimer();
       BindCoroutineRunner();
@@ -94,9 +97,11 @@ namespace Features.Bootstrapp.Scripts
     private void BindTargetsSpawner() => 
       Container.Bind<TargetsSpawner>().ToSelf().FromNew().AsSingle();
 
+    private void BindGoalObserver() => 
+      Container.Bind<GoalObserver>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings.TargetsToWin);
+
     private void BindLevelObserver() =>
-      Container.Bind<LevelObserver>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings.TargetsOnStart,
-        levelSettings.TargetsToWin, levelSettings.GameSecondsTime);
+      Container.Bind<LevelObserver>().ToSelf().FromNew().AsSingle().WithArguments(levelSettings.TargetsOnStart, levelSettings.GameSecondsTime);
 
     private void BindGameTimer() => 
       Container.Bind<GameTimer>().ToSelf().FromNew().AsSingle();
@@ -122,8 +127,11 @@ namespace Features.Bootstrapp.Scripts
     private void BindBulletFactory() => 
       Container.Bind<BulletFactory>().ToSelf().FromNew().AsSingle().WithArguments(bulletPrefab, bulletSpawnParent);
 
-    private void BindCannonPresenter() => 
-      Container.Bind<CannonPresenter>().ToSelf().FromComponentInNewPrefab(cannonPrefab).AsSingle();
+    private void BindCannonPresenter() =>
+      Container.Bind<CannonPresenter>().ToSelf().FromComponentOn(SpawnCannon).AsSingle();
+
+    private GameObject SpawnCannon(InjectContext context) => 
+      Container.InstantiatePrefab(cannonPrefab, cannonSpawnParent);
 
     private void BindGameStateMachine()
     {

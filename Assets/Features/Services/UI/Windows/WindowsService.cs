@@ -2,6 +2,7 @@
 using Features.Services.UI.Factory;
 using Features.Services.UI.Factory.BaseUI;
 using Features.UI.Windows.Base;
+using Features.UI.Windows.Base.Scripts;
 
 namespace Features.Services.UI.Windows
 {
@@ -10,9 +11,6 @@ namespace Features.Services.UI.Windows
     private readonly IUIFactory uiFactory;
 
     private readonly Dictionary<WindowId, BaseWindow> windows;
-
-    public bool IsCleanedUp { get; private set; }
-
     public WindowsService(IUIFactory uiFactory)
     {
       this.uiFactory = uiFactory;
@@ -23,7 +21,6 @@ namespace Features.Services.UI.Windows
 
     public void Cleanup()
     {
-      IsCleanedUp = true;
       uiFactory.Spawned -= AddSpawnedWindow;
     }
 

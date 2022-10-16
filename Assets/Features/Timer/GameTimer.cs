@@ -22,6 +22,7 @@ namespace Features.Timer
     public void Start(int seconds)
     {
       LeftSeconds = seconds;
+      NotifyAboutChange();
       if (timerCoroutine != null)
         coroutineRunner.StopCoroutine(timerCoroutine);
 
@@ -35,11 +36,16 @@ namespace Features.Timer
       {
         yield return delay;
         LeftSeconds--;
-        Changed?.Invoke(LeftSeconds);
+        NotifyAboutChange();
       }
 
       timerCoroutine = null;
       TimeOut?.Invoke();
+    }
+
+    private void NotifyAboutChange()
+    {
+      Changed?.Invoke(LeftSeconds);
     }
   }
 }

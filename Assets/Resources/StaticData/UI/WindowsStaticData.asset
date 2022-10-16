@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InstantiateData:
   - ID: 1
-    Window: {fileID: 0}
+    Window: {fileID: -7117838225723828038, guid: 3fbe03c981784b342ac303accc0258f9, type: 3}
   - ID: 2
-    Window: {fileID: 0}
+    Window: {fileID: 4438453106317824942, guid: 6509e71a13c99874caa3dcc353c79a49, type: 3}
   - ID: 3
-    Window: {fileID: 0}
+    Window: {fileID: 5184985141101364627, guid: d7b965e4469e8a9428bd336289c29bb8, type: 3}
   - ID: 4
-    Window: {fileID: 0}
+    Window: {fileID: 8471907282843035800, guid: 98e5b17328b1c0c42b6dfcfc0d0d3e2f, type: 3}
+  - ID: 5
+    Window: {fileID: 6867141764720432961, guid: efa0f2fdf293e8b49b18cd425db30e0a, type: 3}

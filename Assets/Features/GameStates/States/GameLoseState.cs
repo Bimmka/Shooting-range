@@ -4,11 +4,11 @@ using Features.Services.UI.Windows;
 
 namespace Features.GameStates.States
 {
-  public class GameLooseState : IState
+  public class GameLoseState : IState
   {
     private readonly IWindowsService windowsService;
 
-    public GameLooseState(IGameStateMachine gameStateMachine, IWindowsService windowsService)
+    public GameLoseState(IGameStateMachine gameStateMachine, IWindowsService windowsService)
     {
       this.windowsService = windowsService;
       gameStateMachine.Register(this);

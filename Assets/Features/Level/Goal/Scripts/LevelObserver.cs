@@ -9,22 +9,19 @@ namespace Features.Level.Goal.Scripts
   {
     private readonly TargetsContainer targetsContainer;
     private readonly TargetsSpawner spawner;
-    private readonly int targetsOnStart;
-    private readonly int targetsToWin;
-    private readonly int secondsForGame;
+    private readonly GoalObserver goalObserver;
     private readonly GameTimer gameTimer;
     private readonly IGameStateMachine gameStateMachine;
-
-    private int currentDiedTargets;
-
-    public LevelObserver(TargetsContainer targetsContainer, TargetsSpawner spawner, int targetsOnStart, int targetsToWin, int secondsForGame, GameTimer gameTimer, 
+    private readonly int targetsOnStart;
+    private readonly int secondsForGame;
+    public LevelObserver(TargetsContainer targetsContainer, TargetsSpawner spawner, GoalObserver goalObserver, int targetsOnStart,  int secondsForGame, GameTimer gameTimer, 
       IGameStateMachine gameStateMachine)
     {
       this.targetsContainer = targetsContainer;
       this.targetsContainer.TargetDied += OnTargetDied;
       this.spawner = spawner;
+      this.goalObserver = goalObserver;
       this.targetsOnStart = targetsOnStart;
-      this.targetsToWin = targetsToWin;
       this.secondsForGame = secondsForGame;
       this.gameTimer = gameTimer;
       this.gameStateMachine = gameStateMachine;
@@ -47,14 +44,14 @@ namespace Features.Level.Goal.Scripts
 
     public void RestartLevel()
     {
-      currentDiedTargets = 0;
+      goalObserver.Reset();
       spawner.RespawnTargets(targetsOnStart);
       gameTimer.Start(secondsForGame);
     }
 
     private void OnTargetDied()
     {
-      currentDiedTargets++;
+      goalObserver.IncTargets();
 
       if (IsGameWin())
         WinGame();
@@ -65,8 +62,8 @@ namespace Features.Level.Goal.Scripts
     private void SpawnTarget() => 
       spawner.SpawnTarget();
 
-    private bool IsGameWin() => 
-      currentDiedTargets >= targetsToWin;
+    private bool IsGameWin() =>
+      goalObserver.IsWin();
 
     private void WinGame()
     {
@@ -76,7 +73,7 @@ namespace Features.Level.Goal.Scripts
     private void OnTimeOut()
     {
       targetsContainer.DisableTargets();
-      gameStateMachine.Enter<GameLooseState>();
+      gameStateMachine.Enter<GameLoseState>();
     }
   }
 }
