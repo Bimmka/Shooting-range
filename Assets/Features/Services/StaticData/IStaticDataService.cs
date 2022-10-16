@@ -1,6 +1,8 @@
-﻿using Features.Targets.Scripts.Base;
+﻿using Features.Services.UI.Factory;
+using Features.Targets.Scripts.Base;
 using Features.Targets.Scripts.Elements;
 using Features.Targets.Scripts.Settings;
+using Features.UI.Data;
 
 namespace Features.Services.StaticData
 {
@@ -8,5 +10,6 @@ namespace Features.Services.StaticData
   {
     void Load();
     TargetSettings Settings(TargetType type);
+    WindowInstantiateData ForWindow(WindowId id);
   }
 }
