@@ -10,6 +10,7 @@ namespace Features.Targets.Scripts.Elements
   [RequireComponent(typeof(TargetView))]
   public class TargetPresenter : MonoBehaviour
   {
+    [SerializeField] private Rigidbody2D presenterBody;
     [SerializeField] private TargetView view;
     
     private TargetSettings settings;
@@ -28,7 +29,6 @@ namespace Features.Targets.Scripts.Elements
       this.hp.Overed += OnHPOver;
       this.mover = mover;
       this.settings = settings;
-      view.SetView(settings.View);
       UpdateStatus(TargetStatus.Disabled);
     }
 
@@ -63,7 +63,7 @@ namespace Features.Targets.Scripts.Elements
 
     public void Disable()
     {
-      view.Hide();
+      Hide();
       StopMove();
       UpdateStatus(TargetStatus.Disabled);
     }
@@ -77,16 +77,21 @@ namespace Features.Targets.Scripts.Elements
     private void OnHPOver()
     {
       UpdateStatus(TargetStatus.Disappearing);
-      Hide();
-      NotifyAboutHide();
       StopMove();
+      NotifyAboutHide();
+      Hide(OnDied);
     }
 
-    private void Hide() => 
-      view.Hide(OnDied);
+    private void Hide(Action callback = null)
+    {
+      presenterBody.velocity = Vector2.zero;
+      presenterBody.simulated = false;
+      view.Hide(callback);
+    }
 
     private void OnAppear()
     {
+      EnableRigidbody();
       UpdateStatus(TargetStatus.Moving);
       NotifyAboutAppear();
       StartMove();
@@ -100,6 +105,9 @@ namespace Features.Targets.Scripts.Elements
 
     private void UpdateStatus(TargetStatus status) => 
       Status = status;
+
+    private void EnableRigidbody() => 
+      presenterBody.simulated = true;
 
     private void NotifyAboutAppear() => 
       Appeared?.Invoke();

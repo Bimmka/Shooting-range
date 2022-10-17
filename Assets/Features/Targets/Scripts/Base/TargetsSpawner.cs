@@ -9,13 +9,15 @@ namespace Features.Targets.Scripts.Base
   {
     private readonly TargetsContainer targetsContainer;
     private readonly TargetsFactory factory;
+    private readonly TargetSpawnPositionCalculator positionCalculator;
 
     private readonly int targetTypeCount;
 
-    public TargetsSpawner(TargetsContainer targetsContainer, TargetsFactory factory)
+    public TargetsSpawner(TargetsContainer targetsContainer, TargetsFactory factory, TargetSpawnPositionCalculator positionCalculator)
     {
       this.targetsContainer = targetsContainer;
       this.factory = factory;
+      this.positionCalculator = positionCalculator;
 
       targetTypeCount = Enum.GetNames(typeof(TargetType)).Length;
     }
@@ -29,7 +31,7 @@ namespace Features.Targets.Scripts.Base
     {
       for (int i = 0; i < count; i++)
       {
-        CreateNewTarget(RandomType(), Vector3.up);
+        CreateNewTarget(RandomType(), positionCalculator.RandomPosition());
       }
     }
 
@@ -45,17 +47,15 @@ namespace Features.Targets.Scripts.Base
     {
       TargetType type = RandomType();
       if (targetsContainer.IsContainsDisabledPresenter(type))
-        factory.RespawnTarget(targetsContainer.PresenterOrNull(type), Vector3.right * 5);
+        factory.RespawnTarget(targetsContainer.PresenterOrNull(type), positionCalculator.RandomPosition());
       else
-        CreateNewTarget(type, Vector3.zero);
+        CreateNewTarget(type, positionCalculator.RandomPosition());
     }
 
     private TargetType RandomType() => 
       (TargetType)Random.Range(0, targetTypeCount);
 
-    private void CreateNewTarget(TargetType type, Vector3 position)
-    {
+    private void CreateNewTarget(TargetType type, Vector3 position) => 
       targetsContainer.AddTarget(factory.Spawn(type, position));
-    }
   }
 }

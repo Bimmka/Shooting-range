@@ -1,15 +1,17 @@
 ﻿using System;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Features.Targets.Scripts.Elements
 {
   public class TargetView : MonoBehaviour
   {
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    private GameObject view;
 
-    public void SetView(Sprite view)
+    private Tweener shakeTweener;
+    public void Initialize(GameObject view)
     {
-      spriteRenderer.sprite = view;
+      this.view = view;
     }
 
     public void Show(Action callback = null)
@@ -26,7 +28,15 @@ namespace Features.Targets.Scripts.Elements
 
     public void DisplayHit()
     {
+      if (shakeTweener != null && shakeTweener.IsPlaying())
+        return;
       
+      shakeTweener = view.transform.DOShakePosition(1f, 0.5f, 2, 50f).OnComplete(EndShake);
+    }
+
+    private void EndShake()
+    {
+      shakeTweener = null;
     }
   }
 }

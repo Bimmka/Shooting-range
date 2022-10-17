@@ -1,5 +1,4 @@
-﻿using System;
-using Features.Services.Assets;
+﻿using Features.Services.Assets;
 using Features.Services.Coroutine;
 using Features.Services.StaticData;
 using Features.Targets.Scripts.Elements;
@@ -34,12 +33,9 @@ namespace Features.Targets.Scripts.Base
       TargetPresenter presenter = assetProvider.Instantiate(prefab, spawnParent);
       TargetMover mover = new TargetMover(presenter.GetComponent<Rigidbody2D>(),  settings.MoveSpeed, coroutineRunner);
       TargetHP hp = new TargetHP(settings.MaxHp);
-      
-      presenter.Initialize(settings, mover, hp);
-      presenter.GetComponent<TargetHPDisplayer>().Construct(hp);
-      presenter.SetPosition(position);
-      presenter.SetMoveDirection(MoveDirection());
-      presenter.Show();
+
+      InitializeView(presenter, settings);
+      InitializePresenter(position, presenter, settings, mover, hp);
       return presenter;
     }
 
@@ -49,6 +45,24 @@ namespace Features.Targets.Scripts.Base
       presenter.SetPosition(position);
       presenter.SetMoveDirection(MoveDirection());
       presenter.Show();
+    }
+
+    private void InitializePresenter(Vector3 position, TargetPresenter presenter, TargetSettings settings,
+      TargetMover mover, TargetHP hp)
+    {
+      presenter.Initialize(settings, mover, hp);
+      presenter.GetComponent<TargetHPDisplayer>().Construct(hp);
+      presenter.SetPosition(position);
+      presenter.SetMoveDirection(MoveDirection());
+      presenter.Show();
+    }
+
+    private void InitializeView(TargetPresenter presenter, TargetSettings settings)
+    {
+      TargetViewMarker viewMarker = presenter.GetComponentInChildren<TargetViewMarker>();
+      TargetView view = presenter.GetComponent<TargetView>();
+
+      view.Initialize(assetProvider.Instantiate(settings.View, viewMarker.transform));
     }
 
     private Vector2 MoveDirection() => 

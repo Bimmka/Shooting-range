@@ -9,7 +9,7 @@ namespace Features.Targets.Scripts.Settings
   {
     public TargetType Type;
     public float MoveSpeed;
-    public Sprite View;
+    public GameObject View;
     public int MaxHp;
   }
 }
