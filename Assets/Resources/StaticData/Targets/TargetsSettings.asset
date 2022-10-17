@@ -15,9 +15,9 @@ MonoBehaviour:
   Settings:
   - Type: 0
     MoveSpeed: 5
-    View: {fileID: 0}
+    View: {fileID: 5908627793301295731, guid: 72f7c2eaaa27363489a8b45e44efca35, type: 3}
     MaxHp: 10
   - Type: 1
-    MoveSpeed: 10
-    View: {fileID: 0}
-    MaxHp: 30
+    MoveSpeed: 7
+    View: {fileID: 7101401529402147478, guid: 4dc0959e6daf2fe40b2bdc99d24ccef8, type: 3}
+    MaxHp: 20

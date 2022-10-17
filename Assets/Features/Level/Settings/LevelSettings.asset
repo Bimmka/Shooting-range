@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: LevelSettings
   m_EditorClassIdentifier: 
   TargetsOnStart: 3
-  TargetsToWin: 50
+  TargetsToWin: 5
   GameSecondsTime: 120
