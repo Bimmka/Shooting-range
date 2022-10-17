@@ -26,12 +26,16 @@ namespace Features.Cannon.Scripts
 
     private Quaternion UpDownRotation(Vector3 direction)
     {
-      Quaternion upRotation = Quaternion.LookRotation(new Vector3(0, direction.y, direction.z ), Vector3.up);
-      upRotation.eulerAngles += Vector3.right * settings.XRotationShift;
+      Quaternion upRotation = Quaternion.LookRotation(new Vector3(0, -direction.y, direction.z ), Vector3.up);
+      upRotation.eulerAngles = new Vector3(0, 0, upRotation.eulerAngles.x - settings.XRotationShift);
       return upRotation;
     }
 
-    private Quaternion LeftRightRotation(Vector3 direction) => 
-      Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z ), Vector3.up);
+    private Quaternion LeftRightRotation(Vector3 direction)
+    {
+      Quaternion leftRightRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z), Vector3.up);
+      leftRightRotation.eulerAngles += settings.YRotationVector * settings.YRotationShift;
+      return leftRightRotation;
+    }
   }
 }

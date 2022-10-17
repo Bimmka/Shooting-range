@@ -7,6 +7,9 @@ namespace Features.Cannon.Data
   {
     public float YRotationLerp;
     public float XRotationLerp;
+    public Vector3 XRotationVector;
     public float XRotationShift = 90f;
+    public Vector3 YRotationVector;
+    public float YRotationShift = 90f;
   }
 }
