@@ -29,6 +29,15 @@ namespace Features.Timer
       timerCoroutine = coroutineRunner.StartCoroutine(UpdateTime());
     }
 
+    public void Stop()
+    {
+      if (timerCoroutine == null)
+        return;
+      
+      coroutineRunner.StopCoroutine(timerCoroutine);
+      ResetCoroutine();
+    }
+
     private IEnumerator UpdateTime()
     {
       WaitForSeconds delay = new WaitForSeconds(1f);
@@ -39,13 +48,14 @@ namespace Features.Timer
         NotifyAboutChange();
       }
 
-      timerCoroutine = null;
+      ResetCoroutine();
       TimeOut?.Invoke();
     }
 
-    private void NotifyAboutChange()
-    {
+    private void NotifyAboutChange() => 
       Changed?.Invoke(LeftSeconds);
-    }
+
+    private void ResetCoroutine() => 
+      timerCoroutine = null;
   }
 }
