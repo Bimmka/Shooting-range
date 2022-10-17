@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4307831784697978545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4307831784697978548}
+  - component: {fileID: 4307831784697978547}
+  - component: {fileID: 4307831784697978546}
+  - component: {fileID: 4307831784697978550}
+  - component: {fileID: 4307831784697978549}
+  m_Layer: 0
+  m_Name: SceneContext
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4307831784697978548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4307831784697978545}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4307831784697978547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4307831784697978545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89715ad69b973a14899afa2c6730b30b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 4307831784697978546}
+  - {fileID: 4307831784697978550}
+  - {fileID: 4307831784697978549}
+  _installerPrefabs: []
+  _autoRun: 1
+  OnPreInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostInstall:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPreResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  OnPostResolve:
+    m_PersistentCalls:
+      m_Calls: []
+  _parentNewObjectsUnderSceneContext: 0
+  _contractNames: []
+  _parentContractNames: []
+--- !u!114 &4307831784697978546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4307831784697978545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbc5f70ff3949038b1a80b1aa6b6ee0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelSettings: {fileID: 11400000, guid: 38960c2e46794d6438aac8615f62239b, type: 2}
+  zoneBoundsSettings: {fileID: 11400000, guid: 5caa323d9e51928459ce1db2949a561a, type: 2}
+  zoneEdgesParent: {fileID: 0}
+  gameObserver: {fileID: 3290590562426581443, guid: cfb3430b85e4cc94ab7c765acf6fc959, type: 3}
+  uiRootPrefab: {fileID: 8256353064110077333, guid: 1f0a313c2cdd3b14887a56971f2f05fd, type: 3}
+--- !u!114 &4307831784697978550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4307831784697978545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e02d3c931c4d519f32490cd0aeb575, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetSpawnParent: {fileID: 0}
+  targetPrefab: {fileID: 1030819912550457714, guid: 7ff71c28de6f2334caaf173e3834634e, type: 3}
+  zoneBoundsSettings: {fileID: 11400000, guid: 5caa323d9e51928459ce1db2949a561a, type: 2}
+--- !u!114 &4307831784697978549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4307831784697978545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f59c8cca0124fbb9ad86a9b846f4df6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cannonPrefab: {fileID: 7858551406878999162, guid: 008b190e1fce69a4e9fb66571b250f08, type: 3}
+  cannonSpawnParent: {fileID: 0}
+  aimSpawnParent: {fileID: 0}
+  aimViewPrefab: {fileID: 5583154745403658029, guid: 4b05e5789bf83c94ea3b8ff9e2d248f8, type: 3}
+  bulletPrefab: {fileID: 5732754242439315087, guid: f71e79ddc999d434a82bdfa2c7241d25, type: 3}
+  bulletSpawnParent: {fileID: 0}
