@@ -10,7 +10,7 @@ namespace Features.Level.Zone.Scripts
     public void SetPosition(Vector3 position) => 
       transform.position = position;
 
-    public void SetColliderSize(Vector2 size) => 
+    public virtual void SetSize(Vector2 size) => 
       edgeCollider.size = size;
   }
 }

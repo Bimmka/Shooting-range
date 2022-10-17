@@ -66,13 +66,13 @@ namespace Features.Level.Zone.Scripts
     {
       GameZone gameZone = Zone();
       gameZone.SetPosition(settings.CenterPoint);
-      gameZone.SetColliderSize(new Vector2(settings.Size.x - settings.EdgeWidth, settings.Size.y - settings.EdgeWidth));
+      gameZone.SetSize(new Vector2(settings.Size.x - settings.EdgeWidth, settings.Size.y - settings.EdgeWidth));
     }
 
     private void InitializeEdge(GameZoneEdge edge, Vector3 position, Vector2 size)
     {
       edge.SetPosition(position);
-      edge.SetColliderSize(size);
+      edge.SetSize(size);
     }
 
     private GameZoneEdge Edge() => 

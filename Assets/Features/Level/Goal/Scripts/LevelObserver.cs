@@ -13,8 +13,7 @@ namespace Features.Level.Goal.Scripts
     private readonly GameTimer gameTimer;
     private readonly IGameStateMachine gameStateMachine;
     private readonly int targetsOnStart;
-    private readonly int secondsForGame;
-    public LevelObserver(TargetsContainer targetsContainer, TargetsSpawner spawner, GoalObserver goalObserver, int targetsOnStart,  int secondsForGame, GameTimer gameTimer, 
+    public LevelObserver(TargetsContainer targetsContainer, TargetsSpawner spawner, GoalObserver goalObserver, int targetsOnStart, GameTimer gameTimer, 
       IGameStateMachine gameStateMachine)
     {
       this.targetsContainer = targetsContainer;
@@ -22,7 +21,6 @@ namespace Features.Level.Goal.Scripts
       this.spawner = spawner;
       this.goalObserver = goalObserver;
       this.targetsOnStart = targetsOnStart;
-      this.secondsForGame = secondsForGame;
       this.gameTimer = gameTimer;
       this.gameStateMachine = gameStateMachine;
       this.gameTimer.TimeOut += OnTimeOut;
@@ -38,15 +36,14 @@ namespace Features.Level.Goal.Scripts
 
     public void StartLevel()
     {
+      goalObserver.Refresh();
       spawner.SpawnTargets(targetsOnStart);
-      gameTimer.Start(secondsForGame);
     }
 
     public void RestartLevel()
     {
       goalObserver.Reset();
       spawner.RespawnTargets(targetsOnStart);
-      gameTimer.Start(secondsForGame);
     }
 
     private void OnTargetDied()
@@ -65,15 +62,10 @@ namespace Features.Level.Goal.Scripts
     private bool IsGameWin() =>
       goalObserver.IsWin();
 
-    private void WinGame()
-    {
+    private void WinGame() => 
       gameStateMachine.Enter<GameWinState>();
-    }
 
-    private void OnTimeOut()
-    {
-      targetsContainer.DisableTargets();
+    private void OnTimeOut() => 
       gameStateMachine.Enter<GameLoseState>();
-    }
   }
 }

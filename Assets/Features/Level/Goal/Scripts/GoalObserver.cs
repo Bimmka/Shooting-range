@@ -24,6 +24,9 @@ namespace Features.Level.Goal.Scripts
     public bool IsWin() => 
       currentDestroyedTargets >= targetsToWin;
 
+    public void Refresh() => 
+      NotifyAboutChange();
+
     public void Reset()
     {
       currentDestroyedTargets = 0;
