@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79fd5d7c70754d8db8b3aad4e5039515, type: 3}
   m_Name: CannonShooterSettings
   m_EditorClassIdentifier: 
-  Damage: 10
+  Damage: 5
