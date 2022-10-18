@@ -16,4 +16,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   MaxHitCount: 3
-  Radius: 0.5
+  Radius: 0.75

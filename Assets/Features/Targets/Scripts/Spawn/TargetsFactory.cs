@@ -1,5 +1,6 @@
 ﻿using Features.Services.Assets;
 using Features.Services.Coroutine;
+using Features.Services.Pause;
 using Features.Services.StaticData;
 using Features.Targets.Scripts.Elements;
 using Features.Targets.Scripts.HP;
@@ -16,15 +17,17 @@ namespace Features.Targets.Scripts.Spawn
     private readonly Transform spawnParent;
     private readonly TargetPresenter prefab;
     private readonly ICoroutineRunner coroutineRunner;
+    private readonly IPauseService pauseService;
 
     public TargetsFactory(IAssetProvider assetProvider, IStaticDataService staticDataService, Transform spawnParent,
-      TargetPresenter prefab, ICoroutineRunner coroutineRunner)
+      TargetPresenter prefab, ICoroutineRunner coroutineRunner, IPauseService pauseService)
     {
       this.assetProvider = assetProvider;
       this.staticDataService = staticDataService;
       this.spawnParent = spawnParent;
       this.prefab = prefab;
       this.coroutineRunner = coroutineRunner;
+      this.pauseService = pauseService;
     }
 
     public TargetPresenter Spawn(TargetType type, Vector3 position)
@@ -35,6 +38,7 @@ namespace Features.Targets.Scripts.Spawn
       TargetHP hp = new TargetHP(settings.MaxHp);
 
       InitializeView(presenter, settings);
+      ConstructPresenter(presenter, pauseService);
       InitializePresenter(position, presenter, settings, mover, hp);
       return presenter;
     }
@@ -46,6 +50,9 @@ namespace Features.Targets.Scripts.Spawn
       presenter.SetMoveDirection(MoveDirection());
       presenter.Show();
     }
+
+    private void ConstructPresenter(TargetPresenter presenter, IPauseService pauseService) => 
+      presenter.Construct(pauseService);
 
     private void InitializePresenter(Vector3 position, TargetPresenter presenter, TargetSettings settings,
       TargetMover mover, TargetHP hp)

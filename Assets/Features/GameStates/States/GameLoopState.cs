@@ -1,5 +1,6 @@
 using System.Threading;
 using Features.Cannon.Scripts;
+using Features.Cannon.Scripts.Base;
 using Features.GameStates.States.Interfaces;
 using Features.Level.Settings;
 using Features.Targets.Scripts.Base;

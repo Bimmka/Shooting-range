@@ -6,6 +6,7 @@ using Features.Level.Settings;
 using Features.Level.Zone.Data;
 using Features.Level.Zone.Scripts;
 using Features.Services.Coroutine;
+using Features.Services.Pause;
 using Features.Services.UI.Factory.BaseUI;
 using Features.Services.UI.Windows;
 using Features.Timer;
@@ -40,6 +41,7 @@ namespace Features.Bootstrapp.Scripts
       BindGameStateMachine();
       BindWindowService();
       BindUIFactory();
+      BindPauseService();
     }
 
     private void ResolveGameStates()
@@ -83,5 +85,8 @@ namespace Features.Bootstrapp.Scripts
 
     private void BindUIFactory() => 
       Container.Bind<IUIFactory>().To<UIFactory>().FromNew().AsSingle().WithArguments(uiRootPrefab);
+
+    private void BindPauseService() => 
+      Container.Bind<IPauseService>().To<PauseService>().FromNew().AsSingle();
   }
 }

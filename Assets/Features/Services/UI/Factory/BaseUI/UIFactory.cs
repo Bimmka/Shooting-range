@@ -2,6 +2,7 @@
 using Features.GameStates;
 using Features.Level.Goal.Scripts;
 using Features.Services.Assets;
+using Features.Services.Pause;
 using Features.Services.StaticData;
 using Features.Services.UI.Windows;
 using Features.Timer;
@@ -10,6 +11,7 @@ using Features.UI.Windows.Base.Scripts;
 using Features.UI.Windows.Window.HUD.Scripts;
 using Features.UI.Windows.Window.LoseWindow.Scripts;
 using Features.UI.Windows.Window.MainMenu.Scripts;
+using Features.UI.Windows.Window.PauseMenu.Scripts;
 using Features.UI.Windows.Window.WinWindow.Scripts;
 using UnityEngine;
 using Zenject;
@@ -22,17 +24,17 @@ namespace Features.Services.UI.Factory.BaseUI
     private readonly IAssetProvider assets;
     private readonly IStaticDataService staticData;
     private readonly UIRoot uiRootPrefab;
-
-    private Transform uiRoot;
-
-    private Camera mainCamera;
+    private readonly Camera mainCamera;
     private readonly GoalObserver goalObserver;
     private readonly GameTimer gameTimer;
+    private readonly IPauseService pauseService;
+
+    private Transform uiRoot;
 
     public event Action<WindowId,BaseWindow> Spawned;
 
     public UIFactory(IGameStateMachine gameStateMachine, IAssetProvider assets, IStaticDataService staticData, UIRoot uiRootPrefab, 
-      [Inject(Id = "Main Camera")]Camera mainCamera, GoalObserver goalObserver, GameTimer gameTimer)
+      [Inject(Id = "Main Camera")]Camera mainCamera, GoalObserver goalObserver, GameTimer gameTimer, IPauseService pauseService)
     {
       this.gameStateMachine = gameStateMachine;
       this.assets = assets;
@@ -41,6 +43,7 @@ namespace Features.Services.UI.Factory.BaseUI
       this.mainCamera = mainCamera;
       this.goalObserver = goalObserver;
       this.gameTimer = gameTimer;
+      this.pauseService = pauseService;
     }
 
 
@@ -57,7 +60,7 @@ namespace Features.Services.UI.Factory.BaseUI
           CreateMainMenu(config, gameStateMachine);
           break;
         case WindowId.Pause:
-          CreatePauseMenu(config);
+          CreatePauseMenu(config, pauseService);
           break;
         case WindowId.Win:
           CreateWinWindow(config, gameStateMachine);
@@ -81,9 +84,10 @@ namespace Features.Services.UI.Factory.BaseUI
       NotifyAboutCreateWindow(config.ID, window);
     }
 
-    private void CreatePauseMenu(WindowInstantiateData config)
+    private void CreatePauseMenu(WindowInstantiateData config, IPauseService pauseService)
     {
       BaseWindow window = InstantiateWindow(config, uiRoot);
+      ((UIPauseMenu) window).Construct(pauseService);
       NotifyAboutCreateWindow(config.ID, window);
     }
 

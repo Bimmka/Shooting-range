@@ -1,9 +1,10 @@
 ﻿using System;
+using Features.Services.Pause;
 using UnityEngine;
 
 namespace Features.Bullet.Scripts
 {
-  public class BulletModel
+  public class BulletModel : IPaused
   {
     private readonly BulletMover mover;
     private readonly BulletHitter hitter;
@@ -27,6 +28,12 @@ namespace Features.Bullet.Scripts
 
     public void Move(Vector3 startPosition, Vector3 endPosition) => 
       mover.Move(startPosition, endPosition);
+
+    public void Pause() => 
+      mover.Stop();
+
+    public void Unpause() => 
+      mover.Continue();
 
     private void OnReachHitPosition()
     {

@@ -28,6 +28,8 @@ namespace Features.Services.UI.Windows
     {
       if (windows.ContainsKey(windowId) == false)
         CreateWindow(windowId);
+      
+      windows[windowId].Open();
     }
 
     public void Close(WindowId windowId)

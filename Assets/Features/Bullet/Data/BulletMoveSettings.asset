@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd9c67fbf519400abe095a441a275123, type: 3}
   m_Name: BulletMoveSettings
   m_EditorClassIdentifier: 
-  MoveDuration: 0.75
-  YOffset: 2
+  MoveDuration: 0.5
+  YOffset: 2.3
   MoveEase: 7
   PathType: 1

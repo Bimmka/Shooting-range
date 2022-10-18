@@ -1,4 +1,5 @@
-﻿using Features.UI.Windows.Base.Scripts;
+﻿using Features.Services.Pause;
+using Features.UI.Windows.Base.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,24 @@ namespace Features.UI.Windows.Window.PauseMenu.Scripts
   {
     [SerializeField] private Button continueButton;
     [SerializeField] private Button closeGameButton;
+    private IPauseService pauseService;
+
+    public void Construct(IPauseService pauseService)
+    {
+      this.pauseService = pauseService;
+    }
+
+    public override void Open()
+    {
+      pauseService.Pause();
+      base.Open();
+    }
+
+    public override void Destroy()
+    {
+      pauseService.Unpause();
+      base.Destroy();
+    }
 
     protected override void Subscribe()
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Features.Level.Zone.Scripts;
+using Features.Services.Pause;
 using Features.Targets.Scripts.Base;
 using Features.Targets.Scripts.HP;
 using Features.Targets.Scripts.Settings;
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace Features.Targets.Scripts.Elements
 {
   [RequireComponent(typeof(TargetView))]
-  public class TargetPresenter : MonoBehaviour
+  public class TargetPresenter : MonoBehaviour, IPaused
   {
     [SerializeField] private Rigidbody2D presenterBody;
     [SerializeField] private TargetView view;
@@ -17,12 +18,17 @@ namespace Features.Targets.Scripts.Elements
     private TargetSettings settings;
     private TargetMover mover;
     private TargetHP hp;
+    private IPauseService pauseService;
 
     public TargetStatus Status { get; private set; }
     public TargetType Type => settings.Type;
     public event Action Died;
-    public event Action Hiden;
-    public event Action Appeared;
+
+    public void Construct(IPauseService pauseService)
+    {
+      this.pauseService = pauseService;
+      pauseService.Register(this);
+    }
 
     public void Initialize(TargetSettings settings, TargetMover mover, TargetHP hp)
     {
@@ -32,6 +38,9 @@ namespace Features.Targets.Scripts.Elements
       this.settings = settings;
       UpdateStatus(TargetStatus.Disabled);
     }
+
+    private void OnDestroy() => 
+      pauseService.Unregister(this);
 
     private void OnCollisionEnter2D(Collision2D other)
     {
@@ -69,6 +78,18 @@ namespace Features.Targets.Scripts.Elements
       UpdateStatus(TargetStatus.Disabled);
     }
 
+    public void Pause()
+    {
+      StopMove();
+      DisableRigidbody();
+    }
+
+    public void Unpause()
+    {
+      EnableRigidbody();
+      StartMove();
+    }
+
     private void StartMove() => 
       mover.StartMove();
 
@@ -79,14 +100,12 @@ namespace Features.Targets.Scripts.Elements
     {
       UpdateStatus(TargetStatus.Disappearing);
       StopMove();
-      NotifyAboutHide();
       Hide(OnDied);
     }
 
     private void Hide(Action callback = null)
     {
-      presenterBody.velocity = Vector2.zero;
-      presenterBody.simulated = false;
+      DisableRigidbody();
       view.Hide(callback);
     }
 
@@ -94,7 +113,6 @@ namespace Features.Targets.Scripts.Elements
     {
       EnableRigidbody();
       UpdateStatus(TargetStatus.Moving);
-      NotifyAboutAppear();
       StartMove();
     }
 
@@ -110,11 +128,11 @@ namespace Features.Targets.Scripts.Elements
     private void EnableRigidbody() => 
       presenterBody.simulated = true;
 
-    private void NotifyAboutAppear() => 
-      Appeared?.Invoke();
-
-    private void NotifyAboutHide() => 
-      Hiden?.Invoke();
+    private void DisableRigidbody()
+    {
+      presenterBody.velocity = Vector2.zero;
+      presenterBody.simulated = false;
+    }
 
     private void NotifyAboutDie() => 
       Died?.Invoke();

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3959fb24ed0c4b75a018b992f8c9c25a, type: 3}
   m_Name: LevelSettings
   m_EditorClassIdentifier: 
-  TargetsOnStart: 3
-  TargetsToWin: 5
+  TargetsOnStart: 5
+  TargetsToWin: 20
   GameSecondsTime: 120

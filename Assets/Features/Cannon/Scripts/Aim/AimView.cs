@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Features.Cannon.Scripts
+namespace Features.Cannon.Scripts.Aim
 {
   public class AimView : MonoBehaviour
   {

@@ -33,6 +33,7 @@ namespace Features.Level.Goal.Scripts
       gameTimer.TimeOut -= OnTimeOut;
       targetsContainer.Cleanup();
       spawner.Cleanup();
+      gameTimer.Cleanup();
     }
 
     public void StartLevel()

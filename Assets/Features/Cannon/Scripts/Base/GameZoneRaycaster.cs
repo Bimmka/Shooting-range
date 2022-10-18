@@ -1,7 +1,7 @@
 ﻿using Features.Cannon.Data;
 using UnityEngine;
 
-namespace Features.Cannon.Scripts
+namespace Features.Cannon.Scripts.Base
 {
   public class GameZoneRaycaster
   {

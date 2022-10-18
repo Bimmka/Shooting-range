@@ -1,22 +1,31 @@
 ﻿using System;
 using System.Collections;
 using Features.Services.Coroutine;
+using Features.Services.Pause;
 using UnityEngine;
 
 namespace Features.Timer
 {
-  public class GameTimer
+  public class GameTimer : IPaused
   {
     private readonly ICoroutineRunner coroutineRunner;
+    private readonly IPauseService pauseService;
     private Coroutine timerCoroutine;
     public int LeftSeconds { get; private set; }
 
     public event Action<int> Changed;
     public event Action TimeOut;
     
-    public GameTimer(ICoroutineRunner coroutineRunner)
+    public GameTimer(ICoroutineRunner coroutineRunner, IPauseService pauseService)
     {
       this.coroutineRunner = coroutineRunner;
+      this.pauseService = pauseService;
+      pauseService.Register(this);
+    }
+
+    public void Cleanup()
+    {
+      pauseService.Unregister(this);
     }
 
     public void Start(int seconds)
@@ -36,6 +45,16 @@ namespace Features.Timer
       
       coroutineRunner.StopCoroutine(timerCoroutine);
       ResetCoroutine();
+    }
+
+    public void Pause()
+    {
+      coroutineRunner.StopCoroutine(timerCoroutine);
+    }
+
+    public void Unpause()
+    {
+      timerCoroutine = coroutineRunner.StartCoroutine(UpdateTime());
     }
 
     private IEnumerator UpdateTime()

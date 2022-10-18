@@ -1,6 +1,7 @@
-﻿using Features.Input;
+﻿using Features.Cannon.Scripts.Aim;
+using Features.Input;
 
-namespace Features.Cannon.Scripts
+namespace Features.Cannon.Scripts.Base
 {
   public class CannonModel
   {

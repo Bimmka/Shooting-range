@@ -10,6 +10,8 @@ namespace Features.Bullet.Scripts
     private readonly Transform bulletTransform;
     private readonly BulletMoveSettings settings;
 
+    private Tweener moveTweener;
+
     public event Action Reached;
 
     public BulletMover(Transform bulletTransform, BulletMoveSettings settings)
@@ -24,8 +26,14 @@ namespace Features.Bullet.Scripts
     public void Move(Vector3 startPosition, Vector3 endPosition)
     {
       Vector3[] movePath = Path(startPosition, endPosition);
-      bulletTransform.DOPath(movePath, settings.MoveDuration, settings.PathType).SetEase(settings.MoveEase).OnComplete(OnPathEnd);
+      moveTweener = bulletTransform.DOPath(movePath, settings.MoveDuration, settings.PathType).SetEase(settings.MoveEase).OnComplete(OnPathEnd);
     }
+
+    public void Stop() => 
+      moveTweener.Pause();
+
+    public void Continue() => 
+      moveTweener.Play();
 
     private Vector3[] Path(Vector3 startPosition, Vector3 endPosition)
     {
