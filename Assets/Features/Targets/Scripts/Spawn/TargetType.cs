@@ -1,4 +1,4 @@
-﻿namespace Features.Targets.Scripts.Base
+﻿namespace Features.Targets.Scripts.Spawn
 {
   public enum TargetType
   {

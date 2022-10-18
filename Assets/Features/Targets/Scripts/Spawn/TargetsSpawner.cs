@@ -1,9 +1,9 @@
 ﻿using System;
-using Features.Targets.Scripts.Elements;
+using Features.Targets.Scripts.Base;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Features.Targets.Scripts.Base
+namespace Features.Targets.Scripts.Spawn
 {
   public class TargetsSpawner
   {

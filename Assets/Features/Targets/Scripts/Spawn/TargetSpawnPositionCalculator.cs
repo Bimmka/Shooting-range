@@ -1,7 +1,7 @@
 ﻿using Features.Level.Zone.Data;
 using UnityEngine;
 
-namespace Features.Targets.Scripts.Base
+namespace Features.Targets.Scripts.Spawn
 {
   public class TargetSpawnPositionCalculator
   {

@@ -3,6 +3,7 @@ using Features.Level.Zone.Scripts;
 using Features.Targets.Scripts.Base;
 using Features.Targets.Scripts.HP;
 using Features.Targets.Scripts.Settings;
+using Features.Targets.Scripts.Spawn;
 using UnityEngine;
 
 namespace Features.Targets.Scripts.Elements

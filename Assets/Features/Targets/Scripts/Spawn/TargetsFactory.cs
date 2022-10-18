@@ -7,7 +7,7 @@ using Features.Targets.Scripts.Settings;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Features.Targets.Scripts.Base
+namespace Features.Targets.Scripts.Spawn
 {
   public class TargetsFactory
   {

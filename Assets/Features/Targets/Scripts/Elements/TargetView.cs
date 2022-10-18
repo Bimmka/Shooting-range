@@ -1,15 +1,18 @@
 ﻿using System;
 using DG.Tweening;
+using Features.Targets.Scripts.Animations;
 using UnityEngine;
 
 namespace Features.Targets.Scripts.Elements
 {
   public class TargetView : MonoBehaviour
   {
-    private GameObject view;
+    private TargetDissolver view;
 
     private Tweener shakeTweener;
-    public void Initialize(GameObject view)
+
+    private event Action savedCallback;
+    public void Initialize(TargetDissolver view)
     {
       this.view = view;
     }
@@ -17,13 +20,14 @@ namespace Features.Targets.Scripts.Elements
     public void Show(Action callback = null)
     {
       gameObject.SetActive(true);
-      callback?.Invoke();
+      SaveCallback(callback);
+      view.Appear(OnAppear);
     }
 
     public void Hide(Action callback = null)
     {
-      gameObject.SetActive(false);
-      callback?.Invoke();
+     SaveCallback(callback);
+     view.Dissolve(OnHide);
     }
 
     public void DisplayHit()
@@ -31,12 +35,24 @@ namespace Features.Targets.Scripts.Elements
       if (shakeTweener != null && shakeTweener.IsPlaying())
         return;
       
-      shakeTweener = view.transform.DOShakePosition(1f, 0.5f, 2, 50f).OnComplete(EndShake);
+      shakeTweener = view.transform.DOShakePosition(1f, 0.5f, 2, 50f).OnComplete(OnEndShake);
     }
 
-    private void EndShake()
+    private void OnAppear()
     {
-      shakeTweener = null;
+      savedCallback?.Invoke();
     }
+
+    private void OnHide()
+    {
+      gameObject.SetActive(false);
+      savedCallback?.Invoke();
+    }
+
+    private void OnEndShake() => 
+      shakeTweener = null;
+
+    private void SaveCallback(Action callback) => 
+      savedCallback = callback;
   }
 }

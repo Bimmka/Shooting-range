@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Features.Targets.Scripts.Elements;
+using Features.Targets.Scripts.Spawn;
 
 namespace Features.Targets.Scripts.Base
 {
@@ -32,7 +33,8 @@ namespace Features.Targets.Scripts.Base
         {
             for (int i = 0; i < presenters.Count; i++)
             {
-                presenters[i].Disable();
+                if (IsDisabled(presenters[i].Status) == false)
+                    presenters[i].Disable();
             }
         }
 
