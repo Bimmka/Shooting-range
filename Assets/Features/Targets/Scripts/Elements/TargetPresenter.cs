@@ -1,7 +1,6 @@
 ﻿using System;
 using Features.Level.Zone.Scripts;
 using Features.Services.Pause;
-using Features.Targets.Scripts.Base;
 using Features.Targets.Scripts.HP;
 using Features.Targets.Scripts.Settings;
 using Features.Targets.Scripts.Spawn;

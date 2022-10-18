@@ -6,6 +6,7 @@ using Features.Targets.Scripts.Elements;
 using Features.Targets.Scripts.HP;
 using Features.Targets.Scripts.Settings;
 using UnityEngine;
+using Zenject;
 using Random = UnityEngine.Random;
 
 namespace Features.Targets.Scripts.Spawn
@@ -18,9 +19,10 @@ namespace Features.Targets.Scripts.Spawn
     private readonly TargetPresenter prefab;
     private readonly ICoroutineRunner coroutineRunner;
     private readonly IPauseService pauseService;
+    private readonly Camera mainCamera;
 
     public TargetsFactory(IAssetProvider assetProvider, IStaticDataService staticDataService, Transform spawnParent,
-      TargetPresenter prefab, ICoroutineRunner coroutineRunner, IPauseService pauseService)
+      TargetPresenter prefab, ICoroutineRunner coroutineRunner, IPauseService pauseService, [Inject(Id = "Main Camera")] Camera mainCamera)
     {
       this.assetProvider = assetProvider;
       this.staticDataService = staticDataService;
@@ -28,6 +30,7 @@ namespace Features.Targets.Scripts.Spawn
       this.prefab = prefab;
       this.coroutineRunner = coroutineRunner;
       this.pauseService = pauseService;
+      this.mainCamera = mainCamera;
     }
 
     public TargetPresenter Spawn(TargetType type, Vector3 position)
@@ -58,7 +61,7 @@ namespace Features.Targets.Scripts.Spawn
       TargetMover mover, TargetHP hp)
     {
       presenter.Initialize(settings, mover, hp);
-      presenter.GetComponent<TargetHPDisplayer>().Construct(hp);
+      presenter.GetComponent<TargetHPDisplayer>().Construct(hp, mainCamera);
       presenter.SetPosition(position);
       presenter.SetMoveDirection(MoveDirection());
       presenter.Show();

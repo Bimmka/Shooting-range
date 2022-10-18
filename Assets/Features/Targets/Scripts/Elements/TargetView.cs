@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using Features.Targets.Data;
 using Features.Targets.Scripts.Animations;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace Features.Targets.Scripts.Elements
 {
   public class TargetView : MonoBehaviour
   {
+    [SerializeField] private TargetViewShakeSettings shakeSettings;
+    
     private TargetDissolver view;
 
     private Tweener shakeTweener;
@@ -35,7 +38,7 @@ namespace Features.Targets.Scripts.Elements
       if (shakeTweener != null && shakeTweener.IsPlaying())
         return;
       
-      shakeTweener = view.transform.DOShakePosition(1f, 0.5f, 2, 50f).OnComplete(OnEndShake);
+      shakeTweener = view.transform.DOShakePosition(shakeSettings.Duration, shakeSettings.Strength, shakeSettings.Vibrato).OnComplete(OnEndShake);
     }
 
     private void OnAppear()
