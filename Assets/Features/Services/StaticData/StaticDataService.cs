@@ -4,6 +4,7 @@ using Features.Constants;
 using Features.Services.UI.Factory;
 using Features.Targets.Scripts.Base;
 using Features.Targets.Scripts.Settings;
+using Features.Targets.Scripts.Spawn;
 using Features.UI.Data;
 using UnityEngine;
 

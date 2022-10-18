@@ -1,6 +1,7 @@
 ﻿using Features.GameStates;
 using Features.GameStates.States;
 using Features.Targets.Scripts.Base;
+using Features.Targets.Scripts.Spawn;
 using Features.Timer;
 
 namespace Features.Level.Goal.Scripts
